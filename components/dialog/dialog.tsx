@@ -19,9 +19,6 @@ export const Dialog = ({ title, isOpen, onClose, children }: DialogProps) => {
                     <button onClick={onClose}>&times;</button>
                 </div>
                 <div className={styles.dialogBody}>{children}</div>
-                <div className={styles.dialogFooter}>
-                    <button onClick={onClose}>Close</button>
-                </div>
             </div>
         </>
     );
