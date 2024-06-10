@@ -1,6 +1,5 @@
 'use client';
 import styles from './page.module.css';
-import { useState } from 'react';
 import { SignUp } from '@/components/signup/signup';
 
 export default function Home() {
