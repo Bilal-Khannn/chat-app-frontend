@@ -1,0 +1,30 @@
+.button {
+    border-radius: 8px;
+    padding: 8px 16px 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.primary {
+    background-color: #06334d;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.primary:hover {
+    background-color: #0a486c;
+}
+
+.secondary {
+    background-color: white;
+    color: #06334d;
+    border: 1px solid #06334d;
+    transition: background-color 0.3s ease;
+}
+
+.secondary:hover {
+    background-color: #06334d;
+    color: white;
+}
