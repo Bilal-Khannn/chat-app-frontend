@@ -3,6 +3,7 @@ import { SignIn } from '@/components/signin/signin';
 import styles from './page.module.css';
 import { SignUp } from '@/components/signup/signup';
 import { Toaster } from 'sonner';
+import { refreshTokenService } from '@/services/auth';
 
 export default function Home() {
     return (
@@ -15,6 +16,25 @@ export default function Home() {
                         <SignUp />
                         <SignIn />
                     </div>
+                </div>
+                <div
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <button
+                        style={{
+                            backgroundColor: 'red',
+                            padding: '1rem',
+                            fontSize: '1rem',
+                            color: 'white'
+                        }}
+                        onClick={() => refreshTokenService('123')}
+                    >
+                        test
+                    </button>
                 </div>
             </div>
         </>

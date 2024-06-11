@@ -6,7 +6,7 @@ import { Input } from '../ui/input/input';
 import styles from './signup.module.css';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { signUpService } from '@/services/user';
+import { signUpService } from '@/services/auth';
 import { ISignUpFormValues } from '@/interfaces/user';
 
 export const SignUp = () => {

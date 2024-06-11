@@ -6,7 +6,7 @@ import { Input } from '../ui/input/input';
 import styles from './signin.module.css';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { signInService } from '@/services/user';
+import { signInService } from '@/services/auth';
 import { ISignInFormValues } from '@/interfaces/user';
 import { toast } from 'sonner';
 
