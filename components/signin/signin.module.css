@@ -1,0 +1,12 @@
+.children {
+    display: flex;
+    gap: 0.5rem;
+    flex-direction: column;
+    margin-top: 1rem;
+}
+
+.error {
+    color: red;
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+}

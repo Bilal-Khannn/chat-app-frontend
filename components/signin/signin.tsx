@@ -3,44 +3,43 @@ import { Button } from '../ui/button/button';
 import { useState } from 'react';
 import { Dialog } from '../ui/dialog/dialog';
 import { Input } from '../ui/input/input';
-import styles from './signup.module.css';
+import styles from './signin.module.css';
 import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
-import { signUpService } from '@/services/user';
-import { ISignUpFormValues } from '@/interfaces/user';
+import { signInService } from '@/services/user';
+import { ISignInFormValues } from '@/interfaces/user';
+import { toast } from 'sonner';
 
-export const SignUp = () => {
+export const SignIn = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const {
         register,
         handleSubmit,
         formState: { errors }
-    } = useForm<ISignUpFormValues>();
+    } = useForm<ISignInFormValues>();
 
     const {
         data,
         isPending,
         error,
-        mutate: signupMutation
+        mutate: signInMutation
     } = useMutation({
-        mutationFn: signUpService,
+        mutationFn: signInService,
         onSuccess: (value) => {
             console.log('value', value);
+            toast.success('Logged in successfully!');
         },
         onError: () => {
             console.log(error);
         }
     });
 
-    const onSubmit = (data: ISignUpFormValues) => {
+    const onSubmit = (data: ISignInFormValues) => {
         // setLoading(true);
-        console.log('Sign up data:', data);
 
-        signupMutation({
-            displayName: data.displayName,
+        signInMutation({
             email: data.email,
-            username: data.username,
             password: data.password
         });
     };
@@ -48,12 +47,12 @@ export const SignUp = () => {
     return (
         <div>
             <Button
-                text="Sign Up"
+                text="Sign In"
                 onClick={() => setDialogOpen(true)}
-                color="primary"
+                color="secondary"
             />
             <Dialog
-                title="Sign Up"
+                title="Sign In"
                 isOpen={isDialogOpen}
                 onClose={() => setDialogOpen(false)}
             >
@@ -75,34 +74,7 @@ export const SignUp = () => {
                             </p>
                         )}
                     </div>
-                    <div>
-                        <Input
-                            type="text"
-                            placeholder="Display Name"
-                            {...register('displayName', {
-                                required: 'Display name is required'
-                            })}
-                        />
-                        {errors.displayName && (
-                            <p className={styles.error}>
-                                {errors.displayName.message}
-                            </p>
-                        )}
-                    </div>
-                    <div>
-                        <Input
-                            type="text"
-                            placeholder="Username"
-                            {...register('username', {
-                                required: 'Username is required'
-                            })}
-                        />
-                        {errors.username && (
-                            <p className={styles.error}>
-                                {errors.username.message}
-                            </p>
-                        )}
-                    </div>
+
                     <div>
                         <Input
                             type="password"
@@ -124,7 +96,7 @@ export const SignUp = () => {
                     </div>
                     <div style={{ marginTop: '1rem' }}>
                         <Button
-                            text="Sign Up"
+                            text="Sign In"
                             type="submit"
                             color="primary"
                             loading={loading}

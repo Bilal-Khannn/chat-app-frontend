@@ -4,3 +4,8 @@ export interface ISignUpFormValues {
     username: string;
     password: string;
 }
+
+export interface ISignInFormValues {
+    email: string;
+    password: string;
+}
