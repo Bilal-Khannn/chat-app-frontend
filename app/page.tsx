@@ -64,8 +64,13 @@ export default function Home() {
                                 >
                                     <FaRegUserCircle />
                                 </div>
-                                <div style={{ fontSize: '1.2rem' }}>
-                                    {data.data.displayName}
+                                <div
+                                    style={{
+                                        fontSize: '1.2rem',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    <p>{data.data.displayName}</p>
                                 </div>
 
                                 <Button

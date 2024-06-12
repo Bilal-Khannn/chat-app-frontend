@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { useMutation } from '@tanstack/react-query';
 import { signUpService } from '@/services/auth';
 import { ISignUpFormValues } from '@/interfaces/user';
+import { toast } from 'sonner';
 
 export const SignUp = () => {
     const [isDialogOpen, setDialogOpen] = useState(false);
@@ -27,9 +28,10 @@ export const SignUp = () => {
         mutationFn: signUpService,
         onSuccess: (value) => {
             console.log('value', value);
+            toast.success('Registration successful, please Log in!');
         },
-        onError: () => {
-            console.log(error);
+        onError: (error) => {
+            toast.error('Failed to register: ' + error.message);
         }
     });
 

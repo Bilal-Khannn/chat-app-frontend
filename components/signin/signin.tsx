@@ -5,46 +5,20 @@ import { Dialog } from '../ui/dialog/dialog';
 import { Input } from '../ui/input/input';
 import styles from './signin.module.css';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import { signInService } from '@/services/auth';
 import { ISignInFormValues } from '@/interfaces/user';
-import { toast } from 'sonner';
-import { useSession } from '@/hooks/auth';
+import { useSignIn } from '@/hooks/auth';
 
 export const SignIn = () => {
-    const { refetch } = useSession();
+    const { mutate: mutateSignIn } = useSignIn();
     const [isDialogOpen, setDialogOpen] = useState(false);
-    const [loading, setLoading] = useState(false);
     const {
         register,
         handleSubmit,
         formState: { errors }
     } = useForm<ISignInFormValues>();
 
-    const {
-        data,
-        isPending,
-        error,
-        mutate: signInMutation
-    } = useMutation({
-        mutationFn: signInService,
-        onSuccess: (value) => {
-            console.log('value', value);
-            refetch();
-            localStorage.setItem('user', JSON.stringify(value.data));
-            toast.success('Logged in successfully!');
-        },
-        onError: () => {
-            console.log(error);
-        }
-    });
-
     const onSubmit = (data: ISignInFormValues) => {
-        // setLoading(true);
-        signInMutation({
-            email: data.email,
-            password: data.password
-        });
+        mutateSignIn({ email: data.email, password: data.password });
     };
 
     return (
@@ -102,7 +76,6 @@ export const SignIn = () => {
                             text="Sign In"
                             type="submit"
                             color="primary"
-                            loading={loading}
                             onClick={() => {}}
                         />
                     </div>
