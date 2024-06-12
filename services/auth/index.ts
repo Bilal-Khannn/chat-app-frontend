@@ -70,3 +70,23 @@ export async function refreshTokenService(token: string) {
 
     return result;
 }
+
+export async function verifySession() {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/verify-session`,
+        {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            },
+            credentials: 'include'
+        }
+    );
+
+    const result = await response.json();
+    if (!response.ok) {
+        throw new Error(result.message);
+    }
+
+    return result;
+}

@@ -3,9 +3,15 @@ import { SignIn } from '@/components/signin/signin';
 import styles from './page.module.css';
 import { SignUp } from '@/components/signup/signup';
 import { Toaster } from 'sonner';
-import { refreshTokenService } from '@/services/auth';
+import { socket } from '@/socket';
+import { useState, useEffect } from 'react';
+import { useSession } from '@/hooks/auth';
+import { Loader } from '@/components/ui/loader/loader';
+import { FaRegUserCircle } from 'react-icons/fa';
 
 export default function Home() {
+    const { data, isLoading, isError } = useSession();
+
     return (
         <>
             <Toaster position="top-center" richColors duration={1000} />
@@ -13,28 +19,37 @@ export default function Home() {
                 <div className={styles.header}>
                     <div className={styles.logo}>Pulse</div>
                     <div className={styles.btnContainer}>
-                        <SignUp />
-                        <SignIn />
+                        {isLoading && <Loader />}
+
+                        {isError && (
+                            <>
+                                <SignUp />
+                                <SignIn />
+                            </>
+                        )}
+
+                        {data && !isLoading && !isError && (
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem'
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        fontSize: '2rem',
+                                        marginTop: '4px'
+                                    }}
+                                >
+                                    <FaRegUserCircle />
+                                </div>
+                                <div style={{ fontSize: '1.2rem' }}>
+                                    {data.data.displayName}
+                                </div>
+                            </div>
+                        )}
                     </div>
-                </div>
-                <div
-                    style={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <button
-                        style={{
-                            backgroundColor: 'red',
-                            padding: '1rem',
-                            fontSize: '1rem',
-                            color: 'white'
-                        }}
-                        onClick={() => refreshTokenService('123')}
-                    >
-                        test
-                    </button>
                 </div>
             </div>
         </>

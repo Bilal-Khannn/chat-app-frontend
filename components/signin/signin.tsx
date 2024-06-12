@@ -28,6 +28,7 @@ export const SignIn = () => {
         mutationFn: signInService,
         onSuccess: (value) => {
             console.log('value', value);
+            localStorage.setItem('user', JSON.stringify(value.data));
             toast.success('Logged in successfully!');
         },
         onError: () => {
@@ -37,7 +38,6 @@ export const SignIn = () => {
 
     const onSubmit = (data: ISignInFormValues) => {
         // setLoading(true);
-
         signInMutation({
             email: data.email,
             password: data.password
