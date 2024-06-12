@@ -4,6 +4,7 @@ import { verifySession } from '@/services/auth';
 export const useSession = () => {
     return useQuery({
         queryKey: ['session'],
-        queryFn: verifySession
+        queryFn: verifySession,
+        retry: false
     });
 };

@@ -3,14 +3,34 @@ import { SignIn } from '@/components/signin/signin';
 import styles from './page.module.css';
 import { SignUp } from '@/components/signup/signup';
 import { Toaster } from 'sonner';
-import { socket } from '@/socket';
-import { useState, useEffect } from 'react';
 import { useSession } from '@/hooks/auth';
 import { Loader } from '@/components/ui/loader/loader';
 import { FaRegUserCircle } from 'react-icons/fa';
+import Message from '@/components/message/message';
+import { Button } from '@/components/ui/button/button';
+import { useMutation } from '@tanstack/react-query';
+import { signOutService } from '@/services/auth';
+import { toast } from 'sonner';
 
 export default function Home() {
-    const { data, isLoading, isError } = useSession();
+    const { data, isLoading, isError, refetch } = useSession();
+
+    const { mutate: signOutMutation } = useMutation({
+        mutationFn: signOutService,
+        onSuccess: async (value) => {
+            console.log('value', value);
+            localStorage.removeItem('user');
+            toast.success('Logged out successfully!');
+            await refetch();
+        },
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
+    const handleLogout = () => {
+        signOutMutation();
+    };
 
     return (
         <>
@@ -47,11 +67,18 @@ export default function Home() {
                                 <div style={{ fontSize: '1.2rem' }}>
                                     {data.data.displayName}
                                 </div>
+
+                                <Button
+                                    onClick={() => handleLogout()}
+                                    text="Logout"
+                                    color="primary"
+                                />
                             </div>
                         )}
                     </div>
                 </div>
             </div>
+            <Message />
         </>
     );
 }

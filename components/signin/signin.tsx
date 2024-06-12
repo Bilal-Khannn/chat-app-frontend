@@ -9,8 +9,10 @@ import { useMutation } from '@tanstack/react-query';
 import { signInService } from '@/services/auth';
 import { ISignInFormValues } from '@/interfaces/user';
 import { toast } from 'sonner';
+import { useSession } from '@/hooks/auth';
 
 export const SignIn = () => {
+    const { refetch } = useSession();
     const [isDialogOpen, setDialogOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const {
@@ -28,6 +30,7 @@ export const SignIn = () => {
         mutationFn: signInService,
         onSuccess: (value) => {
             console.log('value', value);
+            refetch();
             localStorage.setItem('user', JSON.stringify(value.data));
             toast.success('Logged in successfully!');
         },

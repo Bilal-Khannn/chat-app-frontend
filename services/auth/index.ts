@@ -49,6 +49,26 @@ export async function signInService(formData: ISignInFormValues) {
     return result;
 }
 
+export async function signOutService() {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/signout`,
+        {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            credentials: 'include'
+        }
+    );
+
+    const result = await response.json();
+    if (!response.ok) {
+        throw new Error(result.message);
+    }
+
+    return result;
+}
+
 export async function refreshTokenService(token: string) {
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh-token`,
