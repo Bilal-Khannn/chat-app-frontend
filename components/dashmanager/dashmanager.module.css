@@ -62,3 +62,14 @@
     max-height: 1000px; /* Adjust as needed */
     transition: max-height 0.3s ease-in;
 }
+
+.namesRender {
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Smooth transition */
+}
+
+.namesRender:hover {
+    background-color: #cae5f4;
+}

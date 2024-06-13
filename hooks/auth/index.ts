@@ -1,11 +1,9 @@
+'use client';
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import {
-    verifySession,
-    signInService,
-    signOutService,
-    signUpService
-} from '@/services/auth';
+import { useState, useEffect } from 'react';
+import { verifySession, signInService } from '@/services/auth';
 import { toast } from 'sonner';
+import { User } from '@/interfaces/user';
 
 export const useSession = () => {
     return useQuery({
@@ -30,4 +28,17 @@ export const useSignIn = () => {
             console.log(error);
         }
     });
+};
+
+export const useLocalStorageUser = () => {
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setUser(JSON.parse(storedUser));
+        }
+    }, []);
+
+    return { user };
 };

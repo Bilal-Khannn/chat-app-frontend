@@ -6,6 +6,8 @@ import { LuUsers } from 'react-icons/lu';
 import { IoMdArrowDropright } from 'react-icons/io';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { useState } from 'react';
+import { IOneToOneChat } from '@/interfaces/chat';
+import { useLocalStorageUser } from '@/hooks/auth';
 
 const names = [
     'Muhammad Bilal Khan',
@@ -13,7 +15,14 @@ const names = [
     'Muhammad Riaz Khan'
 ];
 
-export const DashManager = () => {
+export const DashManager = ({
+    chatMemberData,
+    fetchChat
+}: {
+    chatMemberData: IOneToOneChat[];
+    fetchChat: (chatId: number, chatTitle: string) => void;
+}) => {
+    const { user } = useLocalStorageUser();
     const [collapsedGroups, setCollapsedGroups] = useState(true);
     const [collapsedDirectMessages, setCollapsedDirectMessages] =
         useState(true);
@@ -108,26 +117,41 @@ export const DashManager = () => {
                             : styles.expandedContent
                     }
                 >
-                    {names.map((name, index) => (
-                        <div
-                            key={index}
-                            style={{
-                                padding: '0.5rem 1rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '1rem'
-                            }}
-                        >
-                            <Image
-                                src={'/images/dummy3.jpeg'}
-                                alt="dummy3"
-                                height={35}
-                                width={35}
-                                style={{ borderRadius: '50%' }}
-                            />
-                            <p>{name}</p>
-                        </div>
-                    ))}
+                    {chatMemberData &&
+                        chatMemberData.length > 0 &&
+                        chatMemberData.map((chat, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    padding: '0.5rem 1rem',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '1rem'
+                                }}
+                                className={styles.namesRender}
+                                onClick={() =>
+                                    fetchChat(
+                                        chat.id,
+                                        chat.receiver_id === user?.id
+                                            ? chat.sender_name
+                                            : chat.receiver_name
+                                    )
+                                }
+                            >
+                                <Image
+                                    src={'/images/dummy3.jpeg'}
+                                    alt="dummy3"
+                                    height={35}
+                                    width={35}
+                                    style={{ borderRadius: '50%' }}
+                                />
+                                <p>
+                                    {chat.receiver_id === user?.id
+                                        ? chat.sender_name
+                                        : chat.receiver_name}
+                                </p>
+                            </div>
+                        ))}
                 </div>
             </div>
         </div>

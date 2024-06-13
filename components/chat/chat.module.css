@@ -4,7 +4,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Align content at the bottom */
+    justify-content: space-between;
 }
 
 .chatEditor {
@@ -16,7 +16,7 @@
     border-radius: 8px;
     border: 2px solid #b7ddf2;
     position: relative;
-    height: 10%;
+    height: 6rem;
 }
 
 .messageInput {
@@ -38,4 +38,54 @@
     right: 8px;
     bottom: 8px;
     position: absolute;
+}
+
+.chatTitle {
+    font-size: 20px;
+    font-weight: 600;
+    padding: 1rem;
+    background-color: #7e9daf80;
+}
+
+.messageMainContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+}
+
+.chatMessages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem 1.5rem;
+}
+
+.messageContainer {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.messageContentContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.messageSenderName {
+    color: #06334d;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.messageContent {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.messageTimestamp {
+    font-weight: 400;
+    color: #5691b2;
+    font-size: 12px;
 }

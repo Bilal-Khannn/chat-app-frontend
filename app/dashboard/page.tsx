@@ -1,15 +1,24 @@
 'use client';
 import styles from './page.module.css';
 import Search from '@/components/ui/search/search';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DashNav } from '@/components/dashnav/dashnav';
 import { DashManager } from '@/components/dashmanager/dashmanager';
 import { Chat } from '@/components/chat/chat';
 import { sendMessageService } from '@/services/chat';
+import ProtectedRoute from '@/components/protected/protected';
+import { useOneToOneChat } from '@/hooks/chat';
+import { useConversation } from '@/hooks/chat';
+import { useLocalStorageUser } from '@/hooks/auth';
 
 export default function Dashboard() {
+    const [chatId, setChatId] = useState<number | undefined>();
+    const { user } = useLocalStorageUser();
+    const { data: oneToOneChatData } = useOneToOneChat();
+    const { data: conversation } = useConversation(chatId);
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [message, setMessage] = useState<string>('');
+    const [conversationTitle, setConversationTitle] = useState<string>('');
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
@@ -20,31 +29,47 @@ export default function Dashboard() {
     };
 
     return (
-        <div className={styles.mainContainer}>
-            <header className={styles.headerContainer}>
-                <Search
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    type="text"
-                    className={styles.searchInput}
-                    placeholder="Search QLU Recruiting"
-                />
-            </header>
+        <ProtectedRoute>
+            <div className={styles.mainContainer}>
+                <header className={styles.headerContainer}>
+                    <Search
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        type="text"
+                        className={styles.searchInput}
+                        placeholder="Search QLU Recruiting"
+                    />
+                </header>
 
-            <div style={{ display: 'flex', height: '93.2vh' }}>
-                {/* first container  */}
-                <DashNav />
+                <div style={{ display: 'flex', height: '93.2vh' }}>
+                    {/* first container  */}
+                    <DashNav />
 
-                {/* second container  */}
-                <DashManager />
+                    {/* second container  */}
+                    {oneToOneChatData && oneToOneChatData.data && (
+                        <DashManager
+                            fetchChat={(chatId: number, chatTitle: string) => {
+                                setChatId(chatId);
+                                setConversationTitle(chatTitle);
+                            }}
+                            chatMemberData={oneToOneChatData.data}
+                        />
+                    )}
 
-                {/* third container  */}
-                <Chat
-                    message={message}
-                    setMessage={setMessage}
-                    onSendMessage={onSendMessage}
-                />
+                    {/* third container  */}
+                    <Chat
+                        message={message}
+                        setMessage={setMessage}
+                        onSendMessage={onSendMessage}
+                        conversationData={
+                            conversation && conversation.data
+                                ? conversation.data
+                                : null
+                        }
+                        conversationTitle={conversationTitle}
+                    />
+                </div>
             </div>
-        </div>
+        </ProtectedRoute>
     );
 }
