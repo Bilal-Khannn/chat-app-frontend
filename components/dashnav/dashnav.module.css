@@ -1,0 +1,38 @@
+.navContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 90vh;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    width: 2%;
+}
+
+.topContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.botContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.iconStyles {
+    color: white;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Smooth transition */
+}
+
+.iconStyles:hover {
+    background-color: white;
+    color: #06334d;
+}

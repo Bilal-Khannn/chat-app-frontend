@@ -6,7 +6,6 @@ import { Toaster } from 'sonner';
 import { useSession } from '@/hooks/auth';
 import { Loader } from '@/components/ui/loader/loader';
 import { FaRegUserCircle } from 'react-icons/fa';
-import Message from '@/components/message/message';
 import { Button } from '@/components/ui/button/button';
 import { useMutation } from '@tanstack/react-query';
 import { signOutService } from '@/services/auth';
@@ -83,7 +82,6 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <Message />
         </>
     );
 }

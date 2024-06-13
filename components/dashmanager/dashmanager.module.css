@@ -1,0 +1,64 @@
+.managerContainer {
+    width: 20%;
+    background-color: white;
+    height: 100%;
+    border-radius: 16px 0 0 0;
+}
+
+.managerHeading {
+    color: #06334d;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 2px solid #06334d;
+    padding: 1rem;
+}
+
+.firstContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+}
+
+.firstChildContainer {
+    display: flex;
+    gap: 0.5rem;
+    padding: 1rem;
+    font-size: 16px;
+    cursor: pointer;
+    font-weight: bold;
+    align-items: center;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Smooth transition */
+}
+
+.firstChildContainer:hover {
+    background-color: #06334d;
+    color: white;
+}
+
+.collapseTrigger {
+    display: flex;
+    /* gap: 0.5rem; */
+    font-size: 16px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease; /* Smooth transition */
+}
+
+.collapsedContent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.expandedContent {
+    max-height: 1000px; /* Adjust as needed */
+    transition: max-height 0.3s ease-in;
+}
