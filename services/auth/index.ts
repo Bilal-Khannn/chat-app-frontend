@@ -86,8 +86,6 @@ export async function refreshTokenService(token: string) {
         throw new Error(result.message);
     }
 
-    console.log('result', result);
-
     return result;
 }
 

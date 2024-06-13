@@ -12,13 +12,15 @@ export const Chat = ({
     setMessage,
     onSendMessage,
     conversationTitle,
-    conversationData
+    conversationData,
+    receiverId
 }: {
     message: string;
     setMessage: React.Dispatch<React.SetStateAction<string>>;
-    onSendMessage: () => void;
+    onSendMessage: (receiverId: number | undefined) => void;
     conversationTitle?: string;
     conversationData?: IMessage[];
+    receiverId?: number;
 }) => {
     return (
         <div className={styles.chatContainer}>
@@ -31,9 +33,13 @@ export const Chat = ({
             <div className={styles.messageMainContainer}>
                 <div className={styles.chatMessages}>
                     {conversationData &&
-                        conversationData.map((conversation) => {
+                        conversationData.length > 0 &&
+                        conversationData.map((conversation, index) => {
                             return (
-                                <div className={styles.messageContainer}>
+                                <div
+                                    key={index}
+                                    className={styles.messageContainer}
+                                >
                                     <Image
                                         src={'/images/dummy3.jpeg'}
                                         alt="dummy3"
@@ -80,7 +86,10 @@ export const Chat = ({
                         onChange={(e) => setMessage(e.target.value)}
                         placeholder="Type your message..."
                     />
-                    <div className={styles.sendMessage} onClick={onSendMessage}>
+                    <div
+                        className={styles.sendMessage}
+                        onClick={() => onSendMessage(receiverId)}
+                    >
                         <LuSendHorizonal />
                     </div>
                 </div>

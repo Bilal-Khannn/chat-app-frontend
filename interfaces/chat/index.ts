@@ -1,6 +1,6 @@
 export interface ICreateMessage {
-    senderId: number;
-    receiverId: number;
+    senderId: number | undefined;
+    receiverId: number | undefined;
     content: string;
 }
 

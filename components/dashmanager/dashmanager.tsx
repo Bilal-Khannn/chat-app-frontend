@@ -20,7 +20,7 @@ export const DashManager = ({
     fetchChat
 }: {
     chatMemberData: IOneToOneChat[];
-    fetchChat: (chatId: number, chatTitle: string) => void;
+    fetchChat: (chatId: number, chatTitle: string, receiver_id: number) => void;
 }) => {
     const { user } = useLocalStorageUser();
     const [collapsedGroups, setCollapsedGroups] = useState(true);
@@ -134,7 +134,10 @@ export const DashManager = ({
                                         chat.id,
                                         chat.receiver_id === user?.id
                                             ? chat.sender_name
-                                            : chat.receiver_name
+                                            : chat.receiver_name,
+                                        chat.receiver_id === user?.id
+                                            ? chat.sender_id
+                                            : chat.receiver_id
                                     )
                                 }
                             >

@@ -13,8 +13,8 @@ export interface ISignInFormValues {
 export interface User {
     id: number;
     email: string;
-    display_name: string;
+    displayName: string;
     username: string;
     password: string;
-    profile_picture: string;
+    profilePicture: string;
 }

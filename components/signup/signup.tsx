@@ -27,7 +27,6 @@ export const SignUp = () => {
     } = useMutation({
         mutationFn: signUpService,
         onSuccess: (value) => {
-            console.log('value', value);
             toast.success('Registration successful, please Log in!');
         },
         onError: (error) => {
@@ -37,7 +36,6 @@ export const SignUp = () => {
 
     const onSubmit = (data: ISignUpFormValues) => {
         // setLoading(true);
-        console.log('Sign up data:', data);
 
         signupMutation({
             displayName: data.displayName,

@@ -19,7 +19,6 @@ export const useSignIn = () => {
     return useMutation({
         mutationFn: signInService,
         onSuccess: (value) => {
-            console.log('value', value);
             localStorage.setItem('user', JSON.stringify(value.data));
             queryClient.invalidateQueries({ queryKey: ['session'] });
             toast.success('Logged in successfully!');

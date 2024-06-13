@@ -2,14 +2,16 @@ import { socket } from '@/config/socket';
 import { ICreateMessage } from '@/interfaces/chat';
 
 // this service sends a new message to an existng conversation or initiates a new conversation
-export async function sendMessageService(messageData: ICreateMessage) {
+export async function sendMessageService(
+    messageData: ICreateMessage | undefined
+) {
     // Ensure the socket is connected
     if (!socket.connected) {
         socket.connect();
     }
 
     // Join the room for the current user (assuming currentUserId is available)
-    const currentUserId = messageData.senderId;
+    const currentUserId = messageData?.senderId;
     socket.emit('joinRoom', currentUserId);
 
     // Send the chat message

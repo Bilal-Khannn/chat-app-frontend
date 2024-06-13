@@ -17,7 +17,6 @@ export default function Home() {
     const { mutate: signOutMutation } = useMutation({
         mutationFn: signOutService,
         onSuccess: async (value) => {
-            console.log('value', value);
             localStorage.removeItem('user');
             toast.success('Logged out successfully!');
             await refetch();
