@@ -16,6 +16,7 @@ export interface IMessage {
     content: string;
     id: number;
     sender_id: number;
-    sender_name: string;
+    sender_name?: string;
     timestamp: string;
+    chatId?: number;
 }

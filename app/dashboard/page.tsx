@@ -1,7 +1,7 @@
 'use client';
 import styles from './page.module.css';
 import Search from '@/components/ui/search/search';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { DashNav } from '@/components/dashnav/dashnav';
 import { DashManager } from '@/components/dashmanager/dashmanager';
 import { Chat } from '@/components/chat/chat';
@@ -10,11 +10,10 @@ import ProtectedRoute from '@/components/protected/protected';
 import { useOneToOneChat } from '@/hooks/chat';
 import { useConversation } from '@/hooks/chat';
 import { useLocalStorageUser } from '@/hooks/auth';
-import { useQueryClient } from '@tanstack/react-query';
 import { IMessage } from '@/interfaces/chat';
+import { socket } from '@/config/socket';
 
 export default function Dashboard() {
-    const queryClient = useQueryClient();
     const [chatId, setChatId] = useState<number | undefined>();
     const { user } = useLocalStorageUser();
     const { data: oneToOneChatData } = useOneToOneChat();
@@ -28,14 +27,6 @@ export default function Dashboard() {
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value);
     };
-
-    // const onSendMessage = () => {
-    //     sendMessageService({
-    //         content: message,
-    //         receiverId: receiverId,
-    //         senderId: user?.id
-    //     });
-    // };
 
     const onSendMessage = async () => {
         if (!message || !receiverId || !user?.id) return;
@@ -55,14 +46,35 @@ export default function Dashboard() {
                 senderId: user.id
             });
 
-            addMessageToConversation(newMessage);
+            addMessageToConversation(newMessage, chatId);
 
-            // Clear the message input
             setMessage('');
         } catch (error) {
             console.error('Failed to send message:', error);
         }
     };
+
+    useEffect(() => {
+        if (user?.id) {
+            if (!socket.connected) {
+                socket.connect();
+            }
+
+            socket.emit('joinRoom', user?.id);
+
+            const handleMessage = (message: IMessage) => {
+                addMessageToConversation(message, message.chatId);
+            };
+
+            // Register the event listener once
+            socket.on('chatMessage', handleMessage);
+
+            // Cleanup event listener on component unmount
+            return () => {
+                socket.off('chatMessage', handleMessage);
+            };
+        }
+    }, [user]);
 
     return (
         <ProtectedRoute>

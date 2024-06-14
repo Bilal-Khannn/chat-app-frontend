@@ -18,21 +18,13 @@ export const useOneToOneChat = () => {
     });
 };
 
-// export const useConversation = (chatId: number | undefined) => {
-//     return useQuery({
-//         queryKey: ['conversation', chatId],
-//         queryFn: () => getConversation(chatId),
-//         enabled: !!chatId,
-//         retry: false
-//     });
-// };
-
 export const useConversation = (chatId: number | undefined) => {
     const queryClient = useQueryClient();
 
     const { data, ...rest } = useQuery({
         queryKey: ['conversation', chatId],
         queryFn: async () => {
+            if (chatId === undefined) return [];
             const response = await getConversation(chatId);
             return response.data;
         },
@@ -40,9 +32,12 @@ export const useConversation = (chatId: number | undefined) => {
         retry: false
     });
 
-    const addMessageToConversation = (newMessage: IMessage) => {
+    const addMessageToConversation = (
+        newMessage: IMessage,
+        chatIdParam: number | undefined
+    ) => {
         queryClient.setQueryData(
-            ['conversation', chatId],
+            ['conversation', chatIdParam ? chatIdParam : chatId],
             (oldData: IMessage[] | undefined) => {
                 if (oldData) {
                     return [...oldData, newMessage];

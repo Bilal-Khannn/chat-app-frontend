@@ -1,27 +1,13 @@
 import { socket } from '@/config/socket';
-import { ICreateMessage } from '@/interfaces/chat';
+import { ICreateMessage, IMessage } from '@/interfaces/chat';
+import { useConversation } from '@/hooks/chat';
 
 // this service sends a new message to an existng conversation or initiates a new conversation
 export async function sendMessageService(
     messageData: ICreateMessage | undefined
 ) {
-    // Ensure the socket is connected
-    if (!socket.connected) {
-        socket.connect();
-    }
-
-    // Join the room for the current user (assuming currentUserId is available)
-    const currentUserId = messageData?.senderId;
-    socket.emit('joinRoom', currentUserId);
-
-    // Send the chat message
     socket.emit('chatMessage', messageData);
 }
-
-// logs the event emitted by the server, if any
-socket.on('chatMessage', (message) => {
-    console.log('New message received:', message);
-});
 
 // this service gets the direct message chats that we have initiated with other users
 export async function getOneToOneChatService(userId: number | undefined) {
